@@ -3,7 +3,7 @@
 <head>
 <title>Obtener mercados cercanos</title>
 <meta charset="utf-8" />
-<script type="text/javascript" src="https://maps.google.com/maps/api/js?libraries=places"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAKBXMyTDEjPQyvg47pyf7NSmgr-EWo3qA&libraries=places"></script>
 <script> 
  var map;
  var infowindow;
@@ -42,15 +42,11 @@ function mostrarUbicacion(pos){
 }
 
  function callback(results, status) {
-//var t;
   if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
       createMarker(results[i]);
     }
   }
-  /*for (i = 0; i < nombre.length; i++) {
-    t+=(nombre[i])+'\n';
-  }*/
 }
 
 function createMarker(place) {

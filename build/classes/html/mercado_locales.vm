@@ -23,7 +23,7 @@
   <div class="container">
     <h2>$mercado.nombre</h2>
 
-    <a href="$contextPath/html/mercado/ruta?nombre=$mercado.nombre">aefaefaef</a>
+    <a href="$contextPath/html/mercado/ruta?nombre=$mercado.nombre">Cómo llegar</a>
 
     <ul class="nav nav-tabs">
       #set ($i=0)

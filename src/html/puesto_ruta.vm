@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Dijkstra</title>
+		
+		
+    
+	</head>
+	<body>
+		<script type="text/javascript">
+		var Graph = (function (undefined) {
+
+	var extractKeys = function (obj) {
+		var keys = [], key;
+		for (key in obj) {
+		    Object.prototype.hasOwnProperty.call(obj,key) && keys.push(key);
+		}
+		return keys;
+	}
+
+	var sorter = function (a, b) {
+		return parseFloat (a) - parseFloat (b);
+	}
+
+	var findPaths = function (map, start, end, infinity) {
+		infinity = infinity || Infinity;
+
+		var costs = {},
+		    open = {'0': [start]},
+		    predecessors = {},
+		    keys;
+
+		var addToOpen = function (cost, vertex) {
+			var key = "" + cost;
+			if (!open[key]) open[key] = [];
+			open[key].push(vertex);
+		}
+
+		costs[start] = 0;
+
+		while (open) {
+			if(!(keys = extractKeys(open)).length) break;
+
+			keys.sort(sorter);
+
+			var key = keys[0],
+			    bucket = open[key],
+			    node = bucket.shift(),
+			    currentCost = parseFloat(key),
+			    adjacentNodes = map[node] || {};
+
+			if (!bucket.length) delete open[key];
+
+			for (var vertex in adjacentNodes) {
+			    if (Object.prototype.hasOwnProperty.call(adjacentNodes, vertex)) {
+					var cost = adjacentNodes[vertex],
+					    totalCost = cost + currentCost,
+					    vertexCost = costs[vertex];
+
+					if ((vertexCost === undefined) || (vertexCost > totalCost)) {
+						costs[vertex] = totalCost;
+						addToOpen(totalCost, vertex);
+						predecessors[vertex] = node;
+					}
+				}
+			}
+		}
+
+		if (costs[end] === undefined) {
+			return null;
+		} else {
+			return predecessors;
+		}
+
+	}
+
+	var extractShortest = function (predecessors, end) {
+		var nodes = [],
+		    u = end;
+
+		while (u) {
+			nodes.push(u);
+			u = predecessors[u];
+		}
+
+		nodes.reverse();
+		return nodes;
+	}
+
+	var findShortestPath = function (map, nodes) {
+		var start = nodes.shift(),
+		    end,
+		    predecessors,
+		    path = [],
+		    shortest;
+
+		while (nodes.length) {
+			end = nodes.shift();
+			predecessors = findPaths(map, start, end);
+
+			if (predecessors) {
+				shortest = extractShortest(predecessors, end);
+				if (nodes.length) {
+					path.push.apply(path, shortest.slice(0, -1));
+				} else {
+					return path.concat(shortest);
+				}
+			} else {
+				return null;
+			}
+
+			start = end;
+		}
+	}
+
+	var toArray = function (list, offset) {
+		try {
+			return Array.prototype.slice.call(list, offset);
+		} catch (e) {
+			var a = [];
+			for (var i = offset || 0, l = list.length; i < l; ++i) {
+				a.push(list[i]);
+			}
+			return a;
+		}
+	}
+
+	var Graph = function (map) {
+		this.map = map;
+	}
+
+	Graph.prototype.findShortestPath = function (start, end) {
+		if (Object.prototype.toString.call(start) === '[object Array]') {
+			return findShortestPath(this.map, start);
+		} else if (arguments.length === 2) {
+			return findShortestPath(this.map, [start, end]);
+		} else {
+			return findShortestPath(this.map, toArray(arguments));
+		}
+	}
+
+	Graph.findShortestPath = function (map, start, end) {
+		if (Object.prototype.toString.call(start) === '[object Array]') {
+			return findShortestPath(map, start);
+		} else if (arguments.length === 3) {
+			return findShortestPath(map, [start, end]);
+		} else {
+			return findShortestPath(map, toArray(arguments, 1));
+		}
+	}
+
+	return Graph;
+
+})();
+
+			//var items = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","a1","b1","c1","d1"];
+			var map = {0:{1:1},1:{2:1,1:1,9:1},9:{10:1,1:1},2:{3:1,1:1,12:1},3:{2:1,4:2},4:{3:1,5:1,14:1},5:{6:1,4:1},6:{5:1,7:1,16:1},7:{6:1,8:1},8:{7:1,18:1},8:{7:1,18:1}
+,10:{11:1,9:1,19:1}
+,11:{10:1,12:1}
+,12:{2:1,13:1,11:1,21:1}
+,13:{12:1,14:1}
+,14:{4:1,13:1,15:1,23:1}
+,15:{14:1,16:1}
+,16:{17:1,15:1,6:1,25:1}
+,17:{16:1,18:1}
+,18:{8:1,27:1,17:1}
+,19:{10:1,20:1,28:1}
+,20:{21:1,19:1}
+,21:{22:1,20:1,12:1,30:1}
+,22:{21:1,23:1}
+,23:{22:1,24:1,14:1,32:1}
+,24:{23:1,25:1}
+,25:{24:1,26:1,16:1,34:1}
+,26:{25:1,27:1}
+,27:{28:1,18:1,36:1}
+,28:{19:1,29:1,37:1}
+,29:{28:1,30:1}
+,30:{29:1,31:1,21:1,39:1}
+,31:{30:1,32:1}
+,32:{33:1,31:1,23:1,41:1}
+,33:{34:1,32:1}
+,34:{35:1,33:1,25:1,43:1}
+,33:{34:1,32:1}
+,34:{35:1,33:1,25:1,43:1}
+,35:{36:1,34:1}
+,36:{35:1,27:1,45:1}
+,37:{91:1,46:1,38:1,28:1}
+,38:{37:1,39:1}
+,39:{38:1,40:1,30:1,48:1}
+,40:{39:1,41:1}
+,41:{42:1,40:1,32:1,50:1}
+,43:{44:1,42:1,34:1,52:1}
+,44:{43:1,45:1}
+,45:{44:1,36:1,54:1}
+,46:{91:1,47:1,37:1,55:1}
+,47:{46:1,48:1}
+,48:{47:1,49:1,39:1,57:1}
+,49:{48:1,50:1}
+,50:{49:1,51:1,41:1,59:1}
+,51:{50:1,52:1}
+,52:{51:1,53:1,43:1,61:1}
+,53:{52:1,54:1}
+,54:{53:1,45:1,63:1}
+,55:{46:1,56:1,64:1}
+,56:{57:1,55:1}
+,57:{58:1,56:1,48:1,66:1}
+,58:{59:1,57:1}
+,59:{60:1,58:1,50:1,68:1}
+,60:{61:1,59:1}
+,61:{62:1,60:1,52:1,70:1}
+,62:{63:1,61:1}
+,63:{62:1,54:1,72:1,93:1}
+,64:{65:1,55:1,73:1}
+,65:{66:1,64:1}
+,66:{67:1,65:1,57:1,75:1}
+,67:{68:1,66:1}
+,69:{68:1,70:1}
+,70:{71:1,69:1,61:1,79:1}
+,71:{72:1,70:1}
+,72:{93:1,54:1,72:1,62:1}
+,73:{64:1,74:1,82:1}
+,74:{73:1,75:1}
+,75:{74:1,76:1,66:1,84:1}
+,76:{75:1,77:1}
+,77:{78:1,76:1,68:1,86:1}
+,78:{79:1,77:1,}
+,79:{80:1,78:1,70:1,88:1}
+,80:{81:1,79:1}
+,81:{80:1,72:1,90:1}
+,82:{73:1,83:1}
+,83:{82:1,84:1}
+,84:{83:1,85:1,75:1}
+,85:{84:1,86:1}
+,86:{87:1,85:1,75:1}
+,87:{86:1,88:1}
+,88:{87:1,89:1,79:1,92:1}
+,89:{88:1,90:1,80:1}
+,90:{81:1,89:1,92:1}
+,92:{88:1}
+
+},
+			    graph = new Graph(map);
+		
+			var imp =graph.findShortestPath('0', $local);
+			//document.write(imp);
+			imp =imp.toString();
+			//document.write(imp);
+			var splitted= imp.split(',');
+			
+			var uno="";
+			
+			var uno="";
+			
+			for(i = 0; i < splitted.length; i++){
+				
+						
+						uno += splitted[i]+",";
+					
+				
+			
+		}
+		//document.write(uno);
+					
+			
+		</script>
+		
+		<!--<div style="padding-left: 10%;">
+		<img src="mercado.png">-->
+		<canvas id="miCanvas" width="400" height="700" style="background-image:url('mercado.png');"> </canvas>
+		<!--</div>-->
+	  
+	<script>
+	function cargar(a) {
+     
+    gg.inicializar(); 
+
+   gg.ponerNodo(280,10);
+   gg.nodos[0].setLabel("0");
+    gg.ponerNodo(280,40);
+   gg.nodos[1].setLabel("1");
+   
+   gg.ponerNodo(265,70);
+   gg.nodos[2].setLabel("2");
+   gg.ponerNodo(240,75	);
+   gg.nodos[3].setLabel("3");
+   gg.ponerNodo(190,75);
+   gg.nodos[4].setLabel("4");
+   gg.ponerNodo(150,75);
+   gg.nodos[5].setLabel("5");
+   gg.ponerNodo(120,75);
+   gg.nodos[6].setLabel("6");
+   gg.ponerNodo(90,75);
+   gg.nodos[7].setLabel("7");
+   gg.ponerNodo(60,75);
+   gg.nodos[8].setLabel("8");
+   gg.ponerNodo(300,75);
+   gg.nodos[9].setLabel("9");
+   
+   
+   
+   gg.ponerNodo(310,100);
+   gg.nodos[10].setLabel("10");
+   gg.ponerNodo(279,100);
+   gg.nodos[11].setLabel("11");
+   gg.ponerNodo(250,100);
+   gg.nodos[12].setLabel("12");
+   gg.ponerNodo(220,100);
+   gg.nodos[13].setLabel("13");
+   gg.ponerNodo(190,100);
+   gg.nodos[14].setLabel("14");
+   gg.ponerNodo(150,100);
+   gg.nodos[15].setLabel("15");
+   gg.ponerNodo(120,100);
+   gg.nodos[16].setLabel("16");
+   gg.ponerNodo(90,100);
+   gg.nodos[17].setLabel("17");
+   gg.ponerNodo(60,100);
+   gg.nodos[18].setLabel("18");
+   
+   
+   gg.ponerNodo(310,135	);
+   gg.nodos[19].setLabel("19");
+   gg.ponerNodo(280,135);
+   gg.nodos[20].setLabel("20");
+   gg.ponerNodo(250,135);
+   gg.nodos[21].setLabel("21");
+   gg.ponerNodo(220,135);
+   gg.nodos[22].setLabel("22");
+   gg.ponerNodo(190,135);
+   gg.nodos[23].setLabel("23");
+   gg.ponerNodo(155,135);
+   gg.nodos[24].setLabel("24");
+   gg.ponerNodo(120,135);
+   gg.nodos[25].setLabel("25");
+   gg.ponerNodo(90,135);
+   gg.nodos[26].setLabel("26");
+   gg.ponerNodo(60,135);
+   gg.nodos[27].setLabel("27");
+   
+   gg.ponerNodo(310,165);
+   gg.nodos[28].setLabel("28");
+   gg.ponerNodo(280,165);
+   gg.nodos[29].setLabel("29");
+   gg.ponerNodo(257,165);
+   gg.nodos[30].setLabel("30");
+   gg.ponerNodo(220,165);
+   gg.nodos[31].setLabel("31");
+   gg.ponerNodo(187,165);
+   gg.nodos[32].setLabel("32");
+   gg.ponerNodo(157,165);
+   gg.nodos[33].setLabel("33");
+   gg.ponerNodo(120,165);
+   gg.nodos[34].setLabel("34");
+   gg.ponerNodo(90,165);
+   gg.nodos[35].setLabel("35");
+   gg.ponerNodo(60,165);
+   gg.nodos[36].setLabel("36");
+   
+   gg.ponerNodo(320,200);
+   gg.nodos[37].setLabel("37");
+   gg.ponerNodo(290,200);
+   gg.nodos[38].setLabel("38");
+   gg.ponerNodo(250,200);
+   gg.nodos[39].setLabel("39");
+   gg.ponerNodo(220,200);
+   gg.nodos[40].setLabel("40");
+   gg.ponerNodo(185,200);
+   gg.nodos[41].setLabel("41");
+   gg.ponerNodo(155,200);
+   gg.nodos[42].setLabel("42");
+   gg.ponerNodo(120,200);
+   gg.nodos[43].setLabel("43");
+   gg.ponerNodo(90,200);
+   gg.nodos[44].setLabel("44");
+   gg.ponerNodo(60,200);
+   gg.nodos[45].setLabel("45");
+   
+   gg.ponerNodo(320,250);
+   gg.nodos[46].setLabel("46");
+   gg.ponerNodo(290,250);
+   gg.nodos[47].setLabel("47");
+   gg.ponerNodo(253,250);
+   gg.nodos[48].setLabel("48");
+   gg.ponerNodo(220,250);
+   gg.nodos[49].setLabel("49");
+   gg.ponerNodo(190,250);
+   gg.nodos[50].setLabel("50");
+   gg.ponerNodo(150,250);
+   gg.nodos[51].setLabel("51");
+   gg.ponerNodo(120,250);
+   gg.nodos[52].setLabel("52");
+   gg.ponerNodo(90,250);
+   gg.nodos[53].setLabel("53");
+   gg.ponerNodo(60,250);
+   gg.nodos[54].setLabel("54");
+   
+   gg.ponerNodo(315,315);
+   gg.nodos[55].setLabel("55");
+   gg.ponerNodo(280,315);
+   gg.nodos[56].setLabel("56");
+   gg.ponerNodo(250,315);
+   gg.nodos[57].setLabel("57");
+   gg.ponerNodo(220,315);
+   gg.nodos[58].setLabel("58");
+   gg.ponerNodo(184,315);
+   gg.nodos[59].setLabel("59");
+   gg.ponerNodo(150,315);
+   gg.nodos[60].setLabel("60");
+   gg.ponerNodo(120,315);
+   gg.nodos[61].setLabel("61");
+   gg.ponerNodo(90,315);
+   gg.nodos[62].setLabel("62");
+   gg.ponerNodo(60,315);
+   gg.nodos[63].setLabel("63");
+   
+   
+   gg.ponerNodo(320,375);
+   gg.nodos[64].setLabel("64");
+   gg.ponerNodo(280,375);
+   gg.nodos[65].setLabel("65");
+   gg.ponerNodo(250,375);
+   gg.nodos[66].setLabel("66");
+   gg.ponerNodo(220,375);
+   gg.nodos[67].setLabel("67");
+   gg.ponerNodo(185,375);
+   gg.nodos[68].setLabel("68");
+   gg.ponerNodo(150,375);
+   gg.nodos[69].setLabel("69");
+   gg.ponerNodo(120,375);
+   gg.nodos[70].setLabel("70");
+   gg.ponerNodo(90,375);
+   gg.nodos[71].setLabel("71");
+   gg.ponerNodo(60,375);
+   gg.nodos[72].setLabel("72");
+   
+		gg.ponerNodo(320,440);
+	   gg.nodos[73].setLabel("73");
+	   gg.ponerNodo(285,440);
+	   gg.nodos[74].setLabel("74");
+	   gg.ponerNodo(250,440);
+	   gg.nodos[75].setLabel("75");
+	   gg.ponerNodo(220,440);
+	   gg.nodos[76].setLabel("76");
+	   gg.ponerNodo(186,440);
+	   gg.nodos[77].setLabel("77");
+	   gg.ponerNodo(154,440);
+	   gg.nodos[78].setLabel("78");
+	   gg.ponerNodo(120,440);
+	   gg.nodos[79].setLabel("79");
+	   gg.ponerNodo(90,440);
+	   gg.nodos[80].setLabel("80");
+	   gg.ponerNodo(60,440);
+	   gg.nodos[81].setLabel("81");
+	   
+	   		gg.ponerNodo(320,510);
+	   gg.nodos[82].setLabel("82");
+	   gg.ponerNodo(290,510);
+	   gg.nodos[83].setLabel("83");
+	   gg.ponerNodo(250,510);
+	   gg.nodos[84].setLabel("84");
+	   gg.ponerNodo(220,510);
+	   gg.nodos[85].setLabel("85");
+	   gg.ponerNodo(185,510);
+	   gg.nodos[86].setLabel("86");
+	   gg.ponerNodo(150,510);
+	   gg.nodos[87].setLabel("87");
+	   gg.ponerNodo(120,510);
+	   gg.nodos[88].setLabel("88");
+	   gg.ponerNodo(90,510);
+	   gg.nodos[89].setLabel("89");
+	   gg.ponerNodo(60,510);
+	   gg.nodos[90].setLabel("90");
+	   
+	   gg.ponerNodo(350,228);
+   gg.nodos[91].setLabel("91");
+   
+   gg.ponerNodo(120,570);
+   gg.nodos[92].setLabel("92");
+   
+   gg.ponerNodo(20,315);
+   gg.nodos[93].setLabel("93");
+   
+
+   
+   
+   
+   
+   
+   
+    
+  
+  
+   
+   a =a.toString();
+
+    
+	var uno= a.split(',');
+	
+	
+	for(i = 0; i < uno.length-2; i++){
+				
+			gg.conectar(uno[i],uno[i+1]);
+		}	
+
+    //gg.conectar(a,b);
+	//gg.conectar(1,2);
+	//gg.conectar(0,5);
+    //gg.conectar(1,2);
+
+	
+    gg.dibujarTodo();
+	
+	
+
+
+	//alert(valorNodo("A"));
+
+    
+};
+var gg = ( function () {
+    
+    var context = "aún no carga";
+	 
+    var inicializar = function () {	
+	context = document.getElementById( "miCanvas" ).getContext('2d');
+
+   
+    };
+
+    var g = ( function () {
+
+	nodo = {
+	    fill: 'white',
+	    line: 'black',
+	    radius: 10
+	};
+
+	return {
+	    nodo : nodo
+	};
+
+    })();
+
+    var geometry = ( function () {
+
+	var drawText = function (text, x, y, fill) {
+	    context.fillStyle = fill;
+	    context.textAlign = 'center';
+	    context.textBaseline = 'middle';
+	    context.fillText(text, x, y);
+	};
+
+	var drawCircle = function (radius, x, y, line, fill) {
+	    context.beginPath();
+	    context.arc(x, y, radius, 0, 2*Math.PI);
+	    context.fillStyle = fill;
+	    context.fill();
+	    context.strokeStyle = line;
+	    context.stroke();
+	};
+
+	return {
+	    drawText : drawText,
+	    drawCircle : drawCircle
+	};
+
+    })();
+
+    var nodo =  function () {
+
+	var label;
+
+	var position = {
+	    x: 0,
+	    y: 0
+	};
+	
+	var setLabel = function (text) {
+	    this.label = text;
+	};
+	
+	var getLabel = function(nodo){
+		
+		
+	}
+
+
+	var draw = function() {
+	    geometry.drawCircle(g.nodo.radius, this.position.x, this.position.y, 
+				g.nodo.line, g.nodo.fill);
+	    geometry.drawText(this.label, this.position.x, this.position.y, 
+			      g.nodo.line);
+	};
+
+	return {
+	    position : position,
+	    setLabel : setLabel,
+	    draw : draw
+	};
+
+    };
+
+    var nodos = [];
+    var arcos = [];
+
+    var putNodo = function (x, y) {
+	nodos.push(nodo());
+	var i = nodos.length-1;
+	nodos[i].position.x = x;
+	nodos[i].position.y = y;
+	nodos[i].setLabel(i);
+	return i;
+    };
+
+    var plug = function (a, b) {
+		
+		context.strokeStyle = 'purple';
+		context.lineWidth = 4;
+      context.stroke();
+	arcos.push([a,b]);
+    };
+
+    var unplug = function (a, b) {
+	for(var i=0; i<arcos.length; i++) {
+	    if((arcos[i][0] == a && arcos[i][1] == b) ||
+	       (arcos[i][1] == a && arcos[i][0] == b))
+		arcos.splice(i,1);
+	}
+    };
+
+    var drawAll = function () {
+
+	for(var i=0; i<arcos.length; i++) {
+	    var origin = nodos[arcos[i][0]], destiny = nodos[arcos[i][1]];
+	    context.moveTo(origin.position.x, origin.position.y);
+	    context.lineTo(destiny.position.x, destiny.position.y);
+	    context.stroke();
+	}
+
+	for(var i=0; i<nodos.length; i++) {
+	    nodos[i].draw();
+	}
+
+    };
+
+    var eraseAll = function () {
+	var canvas = document.getElementById( "miCanvas" );
+	context.beginPath();
+	context.position(400,500);
+	context.rect(-10, -10, canvas.width+100, canvas.height+100);
+
+	context.fillStyle = 'white';
+	context.fill();
+    };
+
+    return {
+	context : context,
+	opciones_graficas : g,
+	figuras_geometricas : geometry,
+	Nodo : nodo,
+	nodos : nodos,
+	arcos : arcos,
+	ponerNodo : putNodo,
+	conectar : plug,
+	desconectar: unplug,
+	dibujarTodo: drawAll,
+	borrarTodo: eraseAll,
+	inicializar : inicializar
+    };
+
+})();
+
+		var uno="";
+			
+			for(i = 0; i < splitted.length; i++){
+				
+						
+						uno += splitted[i]+",";
+					
+				
+			
+		}
+		//var uno = "0,1,3,4"
+		//var dos = "1,3,4"
+	//document.write(uno);
+		cargar(uno);
+		
+	
+	
+	
+
+	
+
+
+
+
+
+
+		
+	</script>
+	</div>
+	</body>
+</html>

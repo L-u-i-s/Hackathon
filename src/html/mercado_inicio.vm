@@ -15,7 +15,7 @@
   #parse("header2.vm")
   <div class="container">
     <h2>MERCADOS DEL ESTADO DE OAXACA</h2>
-
+    <a href="$contextPath/html/mercado/rutas">Ver mapa</a>
     <div id="galeria">
       #foreach($mercado in $mercados)
       <div class="galeria_puesto col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">

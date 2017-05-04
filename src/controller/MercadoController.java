@@ -41,8 +41,11 @@ public class MercadoController extends Controller {
 	
 	public HashMap<String, Object> ruta(){
 		String nombre = getStringOptParam("nombre");
-		System.out.println("aegfaegaefea");
 		map.put("nombre", nombre);
+		return map;
+	}
+	
+	public HashMap<String, Object> rutas(){
 		return map;
 	}
 

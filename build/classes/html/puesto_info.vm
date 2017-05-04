@@ -35,12 +35,9 @@
     </div>
     <div class="row"> 
       <div>
-        <h4>Cómo llegar al puesto</h4>
         <!-- <img src="$contextPath/html/download/getFile2?puesto_id=$puesto.id" class="img-responsive"> -->
         <!-- <img src="$contextPath/index2.html" class="img-responsive"> -->
-        <div id="img">
-          
-        </div>
+        <a href="$contextPath/html/puesto/ruta?local=$puesto.num_puesto">Cómo llegar al puesto</a>
       </div>
     </div>
   </div>

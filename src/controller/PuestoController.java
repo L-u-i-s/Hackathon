@@ -29,6 +29,12 @@ public class PuestoController extends Controller {
 		
 	}
 	
+	public HashMap<String, Object> ruta(){
+		String num_puesto = getStringOptParam("local");
+		map.put("local", num_puesto);
+		return map;
+	}
+	
 	public List<Puesto> getPuestos() {
 		Integer id = getIntegerParam("categoria_id");		
 		Integer mercado_id = getIntegerParam("mercado_id");
