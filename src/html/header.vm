@@ -1,0 +1,47 @@
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#"></a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li><a href="$path/../asunto/create">Nuevo asunto</a></li>
+			<li><a href="$path/../persona/asuntosRecibidos">Asuntos recibidos</a></li> 
+			<li><a href="$path/../persona/asuntosEnviados">Asuntos enviados</a></li> 
+			<li><a href="$path/../persona/misAsuntos">Mis asuntos</a></li>
+			<li><a href="$path/../area/index">Áreas</a></li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					Puestos <span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="$path/../puesto/index">No asistentes</a></li>
+					<li><a href="$path/../puesto/indexAsistentes">Asistentes</a></li>
+
+				</ul>
+			</li>
+
+		</ul>
+
+		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<span class="glyphicon glyphicon-user"></span> Rol: $usuario.rol_actual.nombre  <span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					#foreach($rol in $usuario.roles)
+					<li><a href="$contextPath/html/persona/home?rol=$rol.nombre">$rol.nombre</a></li>
+					#end
+				</ul>
+			</li>
+
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<span class="glyphicon glyphicon-user"></span> $usuario.persona.nombre $usuario.persona.appaterno $usuario.persona.apmaterno ($!usuario.persona.puesto.nombre) <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="$path/../usuario/logout"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesión</a></li>
+					</ul>
+				</li>
+
+			</ul>
+		</div>
+	</nav>

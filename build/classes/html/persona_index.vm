@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PERSONAS</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"></style>
+  <script type="text/javascript" src="http://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+  #parse("header.vm")
+  <div class="container">
+    <h2>PERSONAS</h2>
+    <p align="center">
+      <a href="$contextPath/html/persona/create" class="btn btn-primary" role="button">Añadir persona</a>
+    </p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido paterno</th>
+          <th>Apellido materno</th>
+          <th>Domicilio</th>
+          <th>Teléfono</th>
+          <th>Puesto</th>
+          <th>Área</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        #foreach($persona in $personas)
+        <tr>
+         <td>$!persona.nombre</td>
+         <td>$!persona.appaterno</td>
+         <td>$!persona.apmaterno</td>
+         <td>$!persona.domicilio</td>
+         <td>$!persona.telefono</td>
+         <td>$!persona.puesto.nombre</td> 
+         <td>$!persona.puesto.area.nombre</td> 
+              <!-- #if(!$persona.puesto.dependencia)
+              <td>$!persona.puesto.nombre (Interno)</td> 
+              #else
+              <td>$!persona.puesto.nombre ($!persona.puesto.dependencia.nombre)</td>              
+              #end -->
+
+              <td><a href="$contextPath/html/persona/edit/$persona.id" class="btn btn-info" role="button">Editar</a></td>
+              <td><a href="$contextPath/html/persona/delete/$persona.id" class="btn btn-danger" role="button">Eliminar</a></td>
+            </tr>
+            #end
+          </tbody>
+        </table>
+
+      </div>
+
+      <script type="text/javascript">
+        $(document).ready(function(){
+
+
+          tabla = $('table').DataTable( {
+            "language": {
+              "lengthMenu": "Mostrar _MENU_ registros por página",
+              "zeroRecords": "No se han encontrado registros",
+              "info": "Mostrando página _PAGE_ de _PAGES_",
+              "infoEmpty": "Sin registros",
+              "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+              "search": "Buscar ",
+              paginate: {
+                first:      "Primero",
+                previous:   "Anterior",
+                next:       "Siguiente",
+                last:       "Último"
+              }
+            },
+            "bSort": false
+          } );
+
+
+        });
+      </script>
+    </body>
+    </html>

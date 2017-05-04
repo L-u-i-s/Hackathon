@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="US-ASCII">
+<title>Login</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+	<form action=$path/register method="post">
+		Username: <input type="text" name="username" class="username" required> <br> 
+		Password: <input type="password" name="password" class="password" required> <br> 
+		<input type="submit" value="Registrate">
+	</form>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){			
+    		$("form").submit(function(event){
+    			event.preventDefault();
+        		$.ajax({
+        			type: "POST",
+        			url: "$contextPath/json/user/register",
+        			data: {username:$('.username').val(),password: $('.password').val()},
+        			success: function(data){
+            			if(data==1){ 
+    	    				window.location.href = "$contextPath/html/pet/index";
+   						}
+   						else{
+   							alert('Error en el registro');
+   						}
+        		}});
+    		});
+		});
+	</script>
+	
+</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<head>
+	<title>Personas</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link href="$contextPath/css/chosen.min.css" rel="stylesheet" type="text/css"/>
+	<script src="$contextPath/js/chosen.jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+	#parse("header.vm")
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">PERSONAS</div>
+			<div class="panel-body">
+				<form class="form-horizontal" action="$contextPath/json/persona/save" method="POST" id="frmPersona">
+					<input type="hidden" name="id" value="$!persona.id">	
+					<div class="form-group">
+						<label class="control-label col-md-2" for="nombre">*Nombre</label>
+						<div class="col-md-4">
+							<input type="text" value="$!persona.nombre" class="form-control input-sm" id="nombre" name="nombre" required>
+						</div>
+					</div>		
+					<div class="form-group">
+						<label class="control-label col-md-2" for="appaterno">*Apellido paterno</label>
+						<div class="col-md-4">
+							<input type="text" value="$!persona.appaterno" class="form-control input-sm" id="appaterno" name="appaterno" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-2" for="apmaterno">Apellido materno</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control input-sm" value="$!persona.apmaterno" id="apmaterno" name="apmaterno">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-2" for="domicilio">Domicilio</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control input-sm" value="$!persona.domicilio" id="domicilio" name="domicilio">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-2" for="telefono">Teléfono</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control input-sm" value="$!persona.telefono" id="telefono" name="telefono">
+						</div>
+					</div>
+
+					<!-- <div class="form-group" id="selectTipo">
+						<label class="control-label col-md-2" for="tipo">Tipo</label>
+						<div class="col-md-4">							
+							<select name="tipo" class="form-control input-sm" id="tipo">
+								<option value="0">Interno</option>
+								<option value="1">Externo</option>
+							</select>
+						</div>
+					</div> -->
+					
+					<div class="form-group">
+						<label class="control-label col-md-2" for="puesto">Puesto</label>
+						<div class="col-md-4">							
+							<select name="puesto" data-placeholder="Selecciona un puesto" class="form-control input-sm chosen-select" style="width:350px;" tabindex="2" id="puesto">
+								<option value="-1">Seleccione un puesto</option>
+								#foreach($puesto in $puestos)
+								#if($persona.puesto.id!=$puesto.id)
+								<option value="$!puesto.id">$!puesto.nombre / $!puesto.area.nombre</option>
+								#else
+								<option value="$!puesto.id" selected>$!puesto.nombre / $!puesto.area.nombre</option>
+								#end
+								#end
+							</select>
+						</div>
+						<!-- <a href="#" id="popupPuesto"><span class="glyphicon glyphicon-plus" style="font-size:1.5em; color:green;"></span></a> -->
+					</div>
+
+					<!-- <div class="form-group">
+						<label class="control-label col-md-2" for="area">Área</label>
+						<div class="col-md-4">
+							<input type="text" value="$!persona.puesto.area.nombre" class="form-control input-sm" id="area" name="area" readonly>
+						</div>
+					</div> -->
+
+					<div class="form-group">
+						<div class="col-md-offset-2 col-md-10">
+							<button type="submit" class="btn btn-default">Aceptar</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function(){			
+			puesto = $('#puesto');
+			url='$contextPath/json/puesto/getPuestosByDepId';
+			$('#tipo').change(function(){
+				if($(this).val()==1){
+					//url = '$contextPath/json/puesto/puestosExternos';
+					puesto.find('option').not(':first').remove();
+					$("#dependencia option:selected").prop("selected", false);
+					$("#dependencia option:first").prop("selected", "selected");
+					$('#selectDependencia').slideDown();
+				}else{
+					//url = '$contextPath/json/puesto/puestosInternos';
+					$('#selectDependencia').slideUp();
+					updatePuestos(0);
+				}
+				
+			});		
+
+			$('#dependencia').change(function(){
+				var dependencia_id = $(this).val();
+				updatePuestos(dependencia_id);
+
+			});
+
+			window.updatePuestos = function(dependencia_id){
+				
+				$.ajax({
+					type : "POST",
+					dataType: "json",
+					data: {dependencia_id: dependencia_id},
+					url : url,
+					success : function(
+						data) {
+						if(dependencia_id==$('#dependencia').val() || ($('#tipo').val()==0 && dependencia_id==0)) {
+							puesto.find('option').not(':first').remove();
+							$.each(data, function() {
+								puesto.append($("<option />").val(this.id).text(this.nombre+' ('+this.area.nombre+')'));
+							});
+						}
+					}
+				});
+
+			}
+
+			window.updateDependencias = function(){
+				var dependencia = $('#dependencia');
+				$.ajax({
+
+					type : "POST",
+					dataType: "json",
+					url : '$contextPath/json/dependencia/getAll',
+					success : function(
+						data) {
+						dependencia.empty();
+						$.each(data, function() {
+							dependencia.append($("<option />").val(this.id).text(this.nombre));
+						});
+					}
+				});
+			}
+
+			$('#a1').click(function(event){
+				event.preventDefault();
+				if($(this).attr('id') == 'popupPuesto'){
+					popupwindow('$contextPath/html/puesto/create','Puestos',800,600);
+				}else{
+					popupwindow('$contextPath/html/dependencia/create','Dependencias',800,600)
+				}
+			});
+
+			function popupwindow(url, title, w, h) {
+				var y = window.outerHeight / 2 + window.screenY - ( h / 2);
+				var x = window.outerWidth / 2 + window.screenX - ( w / 2);
+				return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + y + ', left=' + x);
+			} 
+
+		});
+	</script>	
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".chosen-select").chosen();
+			$("#frmPersona").submit(function(event) {
+				event.preventDefault();
+				$.ajax({
+					type : "POST",
+					url : $(this).attr('action'),
+					data : $(this).serialize(),
+					success : function(data) {
+						if (data == 1) {
+							window.location.href = '$contextPath/html/persona/index';
+						} else {
+							alert('Hubo un error al actualizar los datos');
+						}
+					}
+				});
+			});
+		});
+	</script>
+
+</body>
+</html>
