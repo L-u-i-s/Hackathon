@@ -11,7 +11,7 @@
 	<script src="$contextPath/js/chosen.jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
-	#parse("header.vm")
+	#parse("header2.vm")
 	<div class="container">
 		<div class="panel panel-default">
 			<div class="panel-heading">USUARIOS</div>
@@ -25,84 +25,54 @@
 						</div>
 					</div>
 
-					#if(!$user)
 					<div class="form-group">
 						<label class="control-label col-md-2" for="password">*Password</label>
 						<div class="col-md-4">
 							<input type="password" value="" class="form-control input-sm" id="password" name="password" required>
 						</div>
-					</div>
-					#end
+					</div>	
 
-					#if(!$user)
 					<div class="form-group">
-						<label class="control-label col-md-2" for="persona">Persona</label>
+						<label class="control-label col-md-2" >Mercado</label>
 						<div class="col-md-4">								
-							<select name="persona_id" data-placeholder="Selecciona una persona" class="form-control input-sm chosen-select" style="width:350px;" tabindex="2" id="persona_id">
-								#foreach($persona in $personas)
-								#if($user.persona.id!=$persona.id)
-								<option value="$!persona.id">$!persona.nombre $!persona.appaterno $!persona.apmaterno 
-									/ $!persona.puesto.nombre / $!persona.puesto.area.nombre</option>
-									#else
-									<option value="$!persona.id" selected>$!persona.nombre $!persona.appaterno $!persona.apmaterno / $!persona.puesto.nombre / $!persona.puesto.area.nombre</option>
-									#end
-									#end
-								</select>
-							</div>
-						</div>					
-						#else
-						<div class="form-group">
-							<label class="control-label col-md-2" for="persona">Persona</label>
-							<div class="col-md-4">
-								<input type="text" value="$!user.persona.nombre $!user.persona.appaterno $!user.persona.apmaterno " class="form-control input-sm" id="persona" name="persona" readonly>
-							</div>
-						</div>
-						#end
-
-						<div class="form-group">
-							<label class="control-label col-md-2" for="persona">Roles</label>
-							<div class="col-md-4">
-								#foreach($rol in $roles)
-								#if($user.hasRol($rol.nombre))
-								<input type="checkbox" name="roles" value="$rol.id" checked> $rol.nombre<br>
-								#else
-								<input type="checkbox" name="roles" value="$rol.id"> $rol.nombre<br>
-								#end								
+							<select name="mercado_id" class="form-control input-sm" id="mercado_id">
+								#foreach($mercado in $mercados)
+								<option value="$!mercado.id">$!mercado.nombre</option>
 								#end
-							</div>
+							</select>
 						</div>
+					</div>									
 
-						<div class="form-group">
-							<div class="col-md-offset-2 col-md-10">
-								<button type="submit" class="btn btn-default">Aceptar</button>
-							</div>
+					<div class="form-group">
+						<div class="col-md-offset-2 col-md-10">
+							<button type="submit" class="btn btn-default">Aceptar</button>
 						</div>
-					</form>
-				</div>
+					</div>
+				</form>
 			</div>
 		</div>
+	</div>
 
-		<script type="text/javascript">
-			$(document).ready(function() {
-				$(".chosen-select").chosen();
-				$("form").submit(function(event) {
-					event.preventDefault();
-					$.ajax({
-						type : "POST",
-						url : $(this).attr('action'),
-						data : $(this).serialize(),
-						success : function(data) {
-							if (data == 1) {
-								window.location.href = '$contextPath/html/usuario/index';
-							} else {
-								alert('Hubo un error al actualizar los datos');
-							}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("form").submit(function(event) {
+				event.preventDefault();
+				$.ajax({
+					type : "POST",
+					url : $(this).attr('action'),
+					data : $(this).serialize(),
+					success : function(data) {
+						if (data == 1) {
+							window.location.href = '$contextPath/html/mercado/inicio';
+						} else {
+							alert('Hubo un error al actualizar los datos');
 						}
-					});
+					}
 				});
 			});
-		</script>
+		});
+	</script>
 
 
-	</body>
-	</html>
+</body>
+</html>

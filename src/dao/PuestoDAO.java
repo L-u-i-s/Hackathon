@@ -40,4 +40,21 @@ public class PuestoDAO extends GenericDAO<Puesto, Integer> {
 		}
 		return list;
 	}
+
+	public List<Puesto> buscarPorProducto(String q) {
+		Session session = sessionFactory.openSession();
+		List<Puesto> list = null;
+		try {
+			Query query = session.createQuery("SELECT p FROM Puesto p where p.productos like :q or p.nombre like :q "
+					+ "or p.mercado.nombre like :q "
+					+ "order by p.mercado.id");
+			query.setParameter("q", "%"+q+"%");
+			list = query.getResultList();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return list;
+	}
 }

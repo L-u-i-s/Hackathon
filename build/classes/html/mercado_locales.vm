@@ -65,7 +65,7 @@
           url : u,
           success : function(puestos) {
             $.each(puestos, function() {
-              var loc = '$contextPath/html/puesto/info?puesto_id='+this.id;
+              var loc = "'$contextPath/html/puesto/info?puesto_id="+this.id+"'";
               $('#galeria').html('<div class="galeria_puesto col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">'+        this.nombre +      '<img src="$contextPath/json/download/getFile?puesto_id='+this.id+'" class="img-responsive"         onclick="document.location='+loc+'" height="250" width="350">      </div>');
             });
           }

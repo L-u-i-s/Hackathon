@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<title>Obtener mercados cercanos</title>
+
+<meta charset="utf-8" />
+
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?libraries=places"></script><!-- &callback=initMap&language=es&region=mx  -->
+
+<script> 
+ var map;
+ var infowindow;
+
+ function initMap() {
+   navigator.geolocation.getCurrentPosition(mostrarUbicacion); 
+}
+function mostrarUbicacion(pos){
+   lat = pos.coords.latitude;
+   lon = pos.coords.longitude;
+ 
+   var myLatlng = new google.maps.LatLng(lat, lon);
+ 
+
+ 
+
+
+   var mapOptions = {
+     center: myLatlng,
+     zoom: 12,
+     mapTypeId: google.maps.MapTypeId.ROADMAP
+   };
+ 
+   map = new google.maps.Map(document.getElementById("map"),mapOptions);
+   
+   infowindow = new google.maps.InfoWindow();
+   var service = new google.maps.places.PlacesService(map);
+ 
+   service.nearbySearch({
+    location: myLatlng,
+    radius: 50000,
+    keyword: 'Mercado'
+  }, callback);
+
+   createMarker(myLatlng);
+
+}
+
+
+ function callback(results, status) {
+
+  if (status === google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      createMarker(results[i]);
+    }
+
+  }
+}
+ 
+/* function crearMarcador(place)
+ {
+   // Creamos un marcador
+   var marker = new google.maps.Marker({
+     map: map,
+     position: place.geometry.location
+   });
+ 
+ // Asignamos el evento click del marcador
+   google.maps.event.addListener(marker, 'click', function() {
+     infowindow.setContent(place.name);
+     infowindow.open(map, this);
+   });
+   }*/
+
+
+function createMarker(place) {
+  var placeLoc = place.geometry.location;
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place.geometry.location
+  });
+
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.setContent(place.name);
+    infowindow.open(map, this);
+  });
+}
+
+</script>
+
+</head>
+
+<body onload="initMap()">
+ <h1>obtener mercados cercanos</h1>
+ <div id="map" style="width: 450px; height: 350px;"> </div>
+</body>
+
+</html>

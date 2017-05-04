@@ -11,40 +11,36 @@
   <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <style>
+    .galeria_puesto
+    {
+      margin-bottom: 30px;
+    }
   </style>
   
 </head>
 <body>
   #parse("header2.vm")
   <div class="container">
-    <div class="row">
 
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 filter hdpe">
+    
+    <div id="galeria">
+      #foreach($puesto in $puestos)
+      <div class="galeria_puesto col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
+        $!puesto.mercado.nombre - $!puesto.nombre
+        <img src="$contextPath/json/download/getFile?puesto_id=$puesto.id" class="img-responsive" 
+        onclick="document.location='$contextPath/html/puesto/info?puesto_id=$puesto.id'" height="250" width="350">
+      </div>
+      #end
+    </div>
+    <!-- <div class="galeria_puesto col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
+      <img src="$contextPath/html/download/getFile" class="img-responsive">
+    </div> -->
+    
 
-        $!puesto.nombre - Local No. $!puesto.num_puesto
-        <img src="$contextPath/html/download/getFile?puesto_id=$puesto.id" class="img-responsive" 
-        onclick="document.location='$contextPath/html/puesto/info?puesto_id=$puesto.id'">
-      </div>
-      <h4>Propietario/a</h4>
-      <p>$!puesto.propietario</p>
-      <h4>Descripción</h4>
-      <p>$!puesto.descripcion</p>
-      <h4>Productos</h4>
-      <p>$!puesto.productos</p>
-    </div>
-    <div class="row"> 
-      <div>
-        <h4>Como llegar</h4>
-        <img src="$contextPath/html/download/getFile2?puesto_id=$puesto.id" class="img-responsive">
-      </div>
-    </div>
   </div>
 
   <script type="text/javascript">
-    $(document).ready(function(){
-
-
-    });
+      
   </script>
 
 </body>

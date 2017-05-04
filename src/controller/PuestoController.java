@@ -32,6 +32,12 @@ public class PuestoController extends Controller {
 		return puestos;
 	}
 	
+	public HashMap<String, Object> buscarPorProducto() {
+		String q = getStringParam("q");		
+		List<Puesto> puestos = puestoDAO.buscarPorProducto(q);
+		map.put("puestos", puestos);
+		return map;
+	}
 	
 
 }

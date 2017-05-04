@@ -11,16 +11,23 @@ import javax.servlet.http.HttpSession;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 import org.bouncycastle.util.encoders.Hex;
 
+import dao.MercadoDAO;
+import dao.PuestoDAO;
 import dao.UsuarioDAO;
+import model.Mercado;
 import model.Usuario;
 
 @PublicClass
 public class UsuarioController extends Controller {
 	private UsuarioDAO usuarioDAO;
+	private MercadoDAO mercadoDAO;
+	private PuestoDAO puestoDAO;
 	//private PersonaDAO personaDAO;
 
-	public UsuarioController(UsuarioDAO usuarioDAO) {
+	public UsuarioController(UsuarioDAO usuarioDAO,MercadoDAO mercadoDAO,PuestoDAO puestoDAO) {
 		this.usuarioDAO = usuarioDAO;
+		this.mercadoDAO =mercadoDAO;
+		this.puestoDAO = puestoDAO;
 		//this.personaDAO = personaDAO;
 	}
 
@@ -31,10 +38,8 @@ public class UsuarioController extends Controller {
 	}
 
 	public HashMap<String, Object> create() {
-//		List<Persona> personas = personaDAO.getInternosSinUsuario();
-//		List<Rol> roles = rolDAO.getAll();
-//		map.put("personas", personas);
-//		map.put("roles", roles);
+		List<Mercado> mercados = mercadoDAO.getAll();
+		map.put("mercados", mercados);
 		return map;
 	}
 
@@ -43,37 +48,34 @@ public class UsuarioController extends Controller {
 		Integer id = getIntegerParam("id");
 		String correo = getStringOptParam("correo").toLowerCase();		
 		Integer[] rol_ids = getIntegerParams("roles");		
-		Usuario u;
-		if (id != null) {
-			u = usuarioDAO.getById(id);
-		}
-		else{
-			u = new Usuario();
-		}
+		Usuario u = new Usuario();
 		u.setCorreo(correo);		
-				
-//		Rol rol = null;
-//		u.setRoles(new ArrayList<Rol>());
-//		for(Integer rol_id:rol_ids){
-//			rol = new Rol();
-//			rol.setId(rol_id);
-//			
-//			u.getRoles().add(rol);
-//		}
-//		u.setRol_actual(rol);
-//		
-//		
-//		if (id != null) {
-//			success = usuarioDAO.update(u);
-//		} else {
-//			Persona persona = new Persona();
-//			String password = getStringOptParam("password");
-//			Integer persona_id = getIntegerParam("persona_id");
-//			persona.setId(persona_id);
-//			u.setPersona(persona);
-//			u.setPassword(sha256(password));
-//			success = usuarioDAO.add(u);
-//		}
+		
+		if (id != null) {
+			success = usuarioDAO.update(u);
+		} else {
+			String password = getStringOptParam("password");
+			u.setPassword(sha256(password));
+			success = usuarioDAO.add(u);
+		}
+		return success;
+	}
+	
+	public int saveLocal() {
+		int success = 0;
+		Integer puesto_id = getIntegerParam("puesto_id");
+		String correo = getStringOptParam("correo").toLowerCase();		
+		Integer[] rol_ids = getIntegerParams("roles");		
+		Usuario u = new Usuario();
+		u.setCorreo(correo);		
+		
+		if (puesto_id != null) {
+			success = puestoDAO.update(u);
+		} else {
+			String password = getStringOptParam("password");
+			u.setPassword(sha256(password));
+			success = usuarioDAO.add(u);
+		}
 		return success;
 	}
 
@@ -139,7 +141,7 @@ public class UsuarioController extends Controller {
 	}
 
 	public void login() {
-		// if(session!=null) return petController.index();
+
 	}
 
 	public void isValidSession() {

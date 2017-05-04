@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,7 +17,7 @@ public class Usuario implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -37623996120231636L;
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +26,8 @@ public class Usuario implements Serializable {
 	private String correo;
 	@Column(name = "password")
 	private String password;
-	
+	@OneToOne (mappedBy="usuario")
+	private Puesto puesto;
 
 	public Usuario() {
 		// TODO Auto-generated constructor stub
@@ -55,6 +57,18 @@ public class Usuario implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+
+	public Puesto getPuesto() {
+		return puesto;
+	}
+
+
+	public void setPuesto(Puesto puesto) {
+		this.puesto = puesto;
+	}
+	
+	
 
 	
 
