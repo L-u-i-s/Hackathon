@@ -15,6 +15,13 @@
 					#end
 				</ul>
 			</li>
+			#if(!$usuario)
+			<li><a href="$path/../usuario/create">Regístrate</a></li>
+			<li><a href="$path/../usuario/login">Login</a></li>
+			#else
+			<li><a href="$path/../usuario/local">Local</a></li>
+			<li><a href="$path/../usuario/logout"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesión</a></li>
+			#end
 
 		</ul>
 

@@ -10,7 +10,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
-
+	#parse("header2.vm")
 	<div class="container">
 		<div id="loginbox" style="margin-top: 50px;"
 		class="col-md-offset-3 col-md-6">
@@ -25,8 +25,7 @@
 		<div class="panel-body">
 			<form class="form-horizontal" action=$path/acceso method="post">
 				<div class="form-group">
-					<label class="control-label col-md-4" for="username">Nombre
-						de usuario:</label>
+					<label class="control-label col-md-4" for="username">Correo:</label>
 						<div class="col-md-8">
 							<input type="text" name="username" class="form-control"
 							id="username" required>
@@ -70,7 +69,7 @@
 				},
 				success : function(data) {
 					if (data == 1) {
-						window.location.href = '$contextPath/html/persona/home';
+						window.location.href = '$contextPath/html/usuario/local';
 					} else {
 						alert('Credenciales incorrectas');
 					}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Registro de Locales</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Registro de Local</h2>
+    <form class="form-horizontal" action="$contextPath/html/usuario/saveLocal" method="POST" id="frm1">
+    <input type="hidden" name="puesto_id" value="$!puesto.id"> 
+      <div class="form-group">
+        <label class="control-label col-md-2" for="mercado">Mercado</label>
+        <div class="col-md-4">              
+          <select name="mercado_id" class="form-control input-sm" id="mercado" placeholder="Selecciona un mercado">
+
+            #foreach($mercado in $mercados)
+            #if($puesto.mercado.id!=$mercado.id)
+            <option value="$!mercado.id">$!mercado.nombre</option>
+            #else
+            <option value="$!mercado.id" selected>$!mercado.nombre</option>
+            #end
+            #end
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="nombre">Nombre del local:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="nombre" name="nombre">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="local">N° Local:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="local" name="local">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="propietario">Propietario:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="propietario" name="propietario">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-md-2" for="categoria">Categoria</label>
+        <div class="col-md-4">              
+          <select name="categoria_id" class="form-control input-sm" id="categoria">
+            #foreach($categoria in $categorias)
+            #if($puesto.categoria.id!=$categoria.id)
+            <option value="$!categoria.id">$!categoria.nombre</option>
+            #else
+            <option value="$!categoria.id" selected>$!categoria.nombre</option>
+            #end
+            #end
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="productos">Productos:</label>
+        <div class="col-sm-10">
+          <textarea type="text" class="form-control" id="productos" name="productos">
+          </textarea>
+        </div>
+      </div>
+
+    <!-- 
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Password:</label>
+      <div class="col-sm-10">          
+        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+      </div>
+    </div>
+    <div class="form-group">        
+      <div class="col-sm-offset-2 col-sm-10">
+        <div class="checkbox">
+          <label><input type="checkbox" name="remember"> Remember me</label>
+        </div>
+      </div>
+    </div>
+  -->
+  <div class="form-group">        
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+  </div>
+</form>
+</div>
+
+</body>
+</html>
