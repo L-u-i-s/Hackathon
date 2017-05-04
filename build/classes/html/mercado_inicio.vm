@@ -14,6 +14,7 @@
 <body>
   #parse("header2.vm")
   <div class="container">
+  
 
     <!-- <div id="galeria">
       #foreach($mercado in $mercados)

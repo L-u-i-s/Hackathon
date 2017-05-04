@@ -28,7 +28,7 @@
       <h4>Propietario/a</h4>
       <p>$!puesto.propietario</p>
       <h4>Descripción</h4>
-      <p>$!puesto.descripción</p>
+      <p>$!puesto.descripcion</p>
       <h4>Productos</h4>
       <p>$!puesto.productos</p>
     </div>
