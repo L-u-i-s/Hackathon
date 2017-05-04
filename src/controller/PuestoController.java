@@ -25,6 +25,10 @@ public class PuestoController extends Controller {
 		return map;
 	}
 	
+	public void index2(){
+		
+	}
+	
 	public List<Puesto> getPuestos() {
 		Integer id = getIntegerParam("categoria_id");		
 		Integer mercado_id = getIntegerParam("mercado_id");

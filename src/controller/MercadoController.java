@@ -23,18 +23,26 @@ public class MercadoController extends Controller {
 
 	public HashMap<String, Object> locales() {
 		Integer id = getIntegerParam("mercado_id");
+		Mercado merc = mercadoDAO.getById(id);
 		Categoria cat = categoriaDAO.getFirst();
 		List<Puesto> puestos = puestoDAO.getAllPuestosByMercadoId(id,cat.getId());
 		List<Categoria> categorias = categoriaDAO.getAll();
 		map.put("puestos", puestos);
 		map.put("categorias", categorias);
-		map.put("mercado_id", id);
+		map.put("mercado", merc);
 		return map;
 	}
 	
 	public HashMap<String, Object> inicio() {
 		List<Mercado> mercados = mercadoDAO.getAll();
 		map.put("mercados", mercados);
+		return map;
+	}
+	
+	public HashMap<String, Object> ruta(){
+		String nombre = getStringOptParam("nombre");
+		System.out.println("aegfaegaefea");
+		map.put("nombre", nombre);
 		return map;
 	}
 

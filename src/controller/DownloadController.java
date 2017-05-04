@@ -16,12 +16,12 @@ public class DownloadController extends Controller {
 	}
 
 	public void getFile2() {
-		String upload_dir = request.getAttribute("upload_dir2").toString();
+		String upload_dir = request.getServletContext().getAttribute("upload_dir2").toString();
 		getF(upload_dir);
 	}
 	
 	public void getFileMercado() {
-		String upload_dir = request.getAttribute("upload_dirMercado").toString();
+		String upload_dir = request.getServletContext().getAttribute("upload_dirMercado").toString();
 		getF(upload_dir);
 	}
 

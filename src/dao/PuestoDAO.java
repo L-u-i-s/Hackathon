@@ -57,4 +57,21 @@ public class PuestoDAO extends GenericDAO<Puesto, Integer> {
 		}
 		return list;
 	}
+
+	public Puesto getByUsuarioId(Integer id) {
+		Session session = sessionFactory.openSession();
+		List<Puesto> list = null;
+		Puesto p = null;
+		try {
+			Query q = session.createQuery("SELECT p FROM Puesto p where p.usuario.id=:id");
+			q.setParameter("id", id);
+			list = q.getResultList();
+			p = list.size()==0?null:(Puesto) list.get(0);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return p;
+	}
 }

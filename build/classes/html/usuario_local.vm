@@ -9,11 +9,11 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-
+#parse("header2.vm")
   <div class="container">
     <h2>Registro de Local</h2>
-    <form class="form-horizontal" action="$contextPath/html/usuario/saveLocal" method="POST" id="frm1">
-    <input type="hidden" name="puesto_id" value="$!puesto.id"> 
+    <form class="form-horizontal" action="$contextPath/json/usuario/saveLocal" method="POST" id="frm1">
+      <input type="hidden" name="puesto_id" value="$!puesto.id"> 
       <div class="form-group">
         <label class="control-label col-md-2" for="mercado">Mercado</label>
         <div class="col-md-4">              
@@ -33,21 +33,21 @@
       <div class="form-group">
         <label class="control-label col-sm-2" for="nombre">Nombre del local:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="nombre" name="nombre">
+          <input type="text" class="form-control" id="nombre" name="nombre" value="$!puesto.nombre">
         </div>
       </div>
 
       <div class="form-group">
-        <label class="control-label col-sm-2" for="local">N° Local:</label>
+        <label class="control-label col-sm-2" for="local">N° Local</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="local" name="local">
+          <input type="text" class="form-control" id="local" name="local" value="$!puesto.num_puesto">
         </div>
       </div>
 
       <div class="form-group">
-        <label class="control-label col-sm-2" for="propietario">Propietario:</label>
+        <label class="control-label col-sm-2" for="propietario">Propietario</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="propietario" name="propietario">
+          <input type="text" class="form-control" id="propietario" name="propietario" value="$!puesto.propietario">
         </div>
       </div>
 
@@ -67,35 +67,46 @@
       </div>
 
       <div class="form-group">
-        <label class="control-label col-sm-2" for="productos">Productos:</label>
+        <label class="control-label col-sm-2" for="productos">Productos (Separados por comas)</label>
         <div class="col-sm-10">
-          <textarea type="text" class="form-control" id="productos" name="productos">
+          <textarea class="form-control" id="productos" name="productos">$!puesto.productos
           </textarea>
         </div>
       </div>
 
-    <!-- 
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">Password:</label>
-      <div class="col-sm-10">          
-        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
-      </div>
-    </div>
-    <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-10">
-        <div class="checkbox">
-          <label><input type="checkbox" name="remember"> Remember me</label>
+      <div class="form-group">
+        <label class="control-label col-sm-2">Descripción</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" id="descripcion" name="descripcion">$!puesto.descripcion
+          </textarea>
         </div>
       </div>
-    </div>
-  -->
-  <div class="form-group">        
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default">Submit</button>
-    </div>
-  </div>
-</form>
-</div>
 
+      <div class="form-group">        
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default">Aceptar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#frm1").submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+          type : "POST",
+          url : $(this).attr('action'),
+          data : $(this).serialize(),
+          success : function(data) {
+            if (data == 1) {
+              window.location.href = '$contextPath/html/mercado/inicio';
+            } else {
+              alert('Hubo un error');
+            }
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

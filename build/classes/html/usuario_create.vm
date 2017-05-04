@@ -32,16 +32,7 @@
 						</div>
 					</div>	
 
-					<div class="form-group">
-						<label class="control-label col-md-2" >Mercado</label>
-						<div class="col-md-4">								
-							<select name="mercado_id" class="form-control input-sm" id="mercado_id">
-								#foreach($mercado in $mercados)
-								<option value="$!mercado.id">$!mercado.nombre</option>
-								#end
-							</select>
-						</div>
-					</div>									
+					
 
 					<div class="form-group">
 						<div class="col-md-offset-2 col-md-10">

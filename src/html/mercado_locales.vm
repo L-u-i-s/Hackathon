@@ -21,6 +21,9 @@
 <body>
   #parse("header2.vm")
   <div class="container">
+    <h2>$mercado.nombre</h2>
+
+    <a href="$contextPath/html/mercado/ruta?nombre=$mercado.nombre">Cómo llegar</a>
 
     <ul class="nav nav-tabs">
       #set ($i=0)
@@ -51,14 +54,12 @@
 
   <script type="text/javascript">
     $(document).ready(function(){
-      /*$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-  var target = $(e.target).attr("href") // activated tab
-  alert(target);
-});*/
+
+
 
       $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         $("#galeria").html("");
-        var u = '$contextPath/json/puesto/getPuestos?categoria_id='+$(this).attr('id')+'&mercado_id='+$mercado_id;
+        var u = '$contextPath/json/puesto/getPuestos?categoria_id='+$(this).attr('id')+'&mercado_id='+$mercado.id;
         
         $.ajax({
           type : "POST",
@@ -72,6 +73,8 @@
 
         });
       });
+
+      $("#ruta").load('$contextPath/html/mercado/ruta?nombre=$mercado.nombre');
 
     });
   </script>

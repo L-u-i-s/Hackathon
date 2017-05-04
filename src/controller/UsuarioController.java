@@ -11,10 +11,13 @@ import javax.servlet.http.HttpSession;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 import org.bouncycastle.util.encoders.Hex;
 
+import dao.CategoriaDAO;
 import dao.MercadoDAO;
 import dao.PuestoDAO;
 import dao.UsuarioDAO;
+import model.Categoria;
 import model.Mercado;
+import model.Puesto;
 import model.Usuario;
 
 @PublicClass
@@ -22,13 +25,15 @@ public class UsuarioController extends Controller {
 	private UsuarioDAO usuarioDAO;
 	private MercadoDAO mercadoDAO;
 	private PuestoDAO puestoDAO;
+	private CategoriaDAO categoriaDAO;
 	//private PersonaDAO personaDAO;
 
-	public UsuarioController(UsuarioDAO usuarioDAO,MercadoDAO mercadoDAO,PuestoDAO puestoDAO) {
+	public UsuarioController(UsuarioDAO usuarioDAO,MercadoDAO mercadoDAO,PuestoDAO puestoDAO,CategoriaDAO categoriaDAO) {
 		this.usuarioDAO = usuarioDAO;
 		this.mercadoDAO =mercadoDAO;
 		this.puestoDAO = puestoDAO;
 		//this.personaDAO = personaDAO;
+		this.categoriaDAO= categoriaDAO;
 	}
 
 	public HashMap<String, Object> index() {
@@ -63,18 +68,38 @@ public class UsuarioController extends Controller {
 	
 	public int saveLocal() {
 		int success = 0;
+		
 		Integer puesto_id = getIntegerParam("puesto_id");
-		String correo = getStringOptParam("correo").toLowerCase();		
-		Integer[] rol_ids = getIntegerParams("roles");		
-		Usuario u = new Usuario();
-		u.setCorreo(correo);		
+		Integer mercado_id = getIntegerParam("mercado_id");
+		Integer categoria_id = getIntegerParam("categoria_id");
+		String nombre = getStringOptParam("nombre");			
+		String propietario = getStringOptParam("propietario");			
+		String productos = getStringOptParam("productos");			
+		String descripcion = getStringOptParam("descripcion");			
+		Integer local = getIntegerParam("local");			
+		Puesto p = new Puesto();
+		p = puestoDAO.getByUsuarioId(usuario.getId());
+		if(p==null){
+			p = new Puesto();
+			p.setUsuario(usuario);
+		}
+		p.setId(puesto_id);
+		Mercado m = new Mercado();
+		m.setId(mercado_id);
+		p.setMercado(m);
+		Categoria c = new Categoria();
+		c.setId(categoria_id);
+		p.setCategoria(c);
+		p.setDescripcion(descripcion);
+		p.setNombre(nombre);
+		p.setPropietario(propietario);
+		p.setProductos(productos);
+		p.setNum_puesto(local);
 		
 		if (puesto_id != null) {
-			success = puestoDAO.update(u);
+			success = puestoDAO.update(p);
 		} else {
-			String password = getStringOptParam("password");
-			u.setPassword(sha256(password));
-			success = usuarioDAO.add(u);
+			success = puestoDAO.add(p);
 		}
 		return success;
 	}
@@ -87,6 +112,19 @@ public class UsuarioController extends Controller {
 		}
 		map = create();
 		map.put("user", usuario);
+		return map;
+	}
+	
+	public HashMap<String, Object> local() {
+		Puesto puesto = puestoDAO.getByUsuarioId(usuario.getId());
+		if (puesto != null) {
+			//puesto = puestoDAO.getById(id);
+		}
+		List<Mercado> mercados = mercadoDAO.getAll();
+		List<Categoria> categorias= categoriaDAO.getAll();
+		map.put("puesto", puesto);
+		map.put("mercados", mercados);
+		map.put("categorias", categorias);
 		return map;
 	}
 

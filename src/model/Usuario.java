@@ -26,8 +26,6 @@ public class Usuario implements Serializable {
 	private String correo;
 	@Column(name = "password")
 	private String password;
-	@OneToOne (mappedBy="usuario")
-	private Puesto puesto;
 
 	public Usuario() {
 		// TODO Auto-generated constructor stub
@@ -59,15 +57,6 @@ public class Usuario implements Serializable {
 	}
 
 
-	public Puesto getPuesto() {
-		return puesto;
-	}
-
-
-	public void setPuesto(Puesto puesto) {
-		this.puesto = puesto;
-	}
-	
 	
 
 	
