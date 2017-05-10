@@ -51,23 +51,23 @@ insert into usuario(correo,password) values
 
 insert into categoria(nombre) values
 ('Frutas y verduras'),
-('Artesan韆s'),
+('Artesan贸as'),
 ('Comida');
 
 insert into mercado(nombre,direccion) values 
-('Mercado 20 de noviembre', 'direcci髇'),
-('Mercado Benito Ju醨ez', 'direcci髇'),
-('Mercado de Artesan韆s', 'direcci髇'),
-('Mercado Hidalgo', 'direcci髇');
+('Mercado 20 de noviembre', 'direcci贸n'),
+('Mercado Benito Ju贸rez', 'direcci贸n'),
+('Mercado de Artesan贸as', 'direcci贸n'),
+('Mercado Hidalgo', 'direcci贸n');
 
 insert into puesto(mercado_id,usuario_id,nombre,num_puesto,propietario,productos,telefono,categoria_id,descripcion) values
-(1,1,'puesto1',1,'prop1','prod1,prod2,prod3','1234',1,'Con tres generaciones de experiencia en la cocina oaxaque馻s, siendo su fundadora la Sra. Juana S醤chez Pacheco, una de las pioneras del mercado 20 de Nov.'),
-(1,2,'puesto2',2,'prop2','prod1,prod2,prod3','1234',2,'Con tres generaciones de experiencia en la cocina oaxaque馻s, siendo su fundadora la Sra. Juana S醤chez Pacheco, una de las pioneras del mercado 20 de Nov.'),
-(2,3,'puesto3',3,'prop3','prod1,prod2,prod3','1234',3,'Con tres generaciones de experiencia en la cocina oaxaque馻s, siendo su fundadora la Sra. Juana S醤chez Pacheco, una de las pioneras del mercado 20 de Nov.'),
-(2,4,'puesto4',4,'prop4','prod1,prod2,prod3','1234',1,'Con tres generaciones de experiencia en la cocina oaxaque馻s, siendo su fundadora la Sra. Juana S醤chez Pacheco, una de las pioneras del mercado 20 de Nov.'),
-(2,5,'puesto7',7,'prop7','prod1,prod2,prod3','1234',2,'Con tres generaciones de experiencia en la cocina oaxaque馻s, siendo su fundadora la Sra. Juana S醤chez Pacheco, una de las pioneras del mercado 20 de Nov.'),
-(2,6,'puesto8',8,'prop8','prod1,prod2,prod3','1234',2,'Con tres generaciones de experiencia en la cocina oaxaque馻s, siendo su fundadora la Sra. Juana S醤chez Pacheco, una de las pioneras del mercado 20 de Nov.'),
-(3,7,'puesto5',5,'prop3','prod1,prod2,prod3','1234',2,'Con tres generaciones de experiencia en la cocina oaxaque馻s, siendo su fundadora la Sra. Juana S醤chez Pacheco, una de las pioneras del mercado 20 de Nov.'),
-(3,8,'puesto6',6,'prop3','prod1,prod2,prod3','1234',3,'Con tres generaciones de experiencia en la cocina oaxaque馻s, siendo su fundadora la Sra. Juana S醤chez Pacheco, una de las pioneras del mercado 20 de Nov.');
+(1,1,'puesto1',1,'prop1','prod1,prod2,prod3','1234',1,'Con tres generaciones de experiencia en la cocina oaxaque贸as, siendo su fundadora la Sra. Juana S贸nchez Pacheco, una de las pioneras del mercado 20 de Nov.'),
+(1,2,'puesto2',2,'prop2','prod1,prod2,prod3','1234',2,'Con tres generaciones de experiencia en la cocina oaxaque贸as, siendo su fundadora la Sra. Juana S贸nchez Pacheco, una de las pioneras del mercado 20 de Nov.'),
+(2,3,'puesto3',3,'prop3','prod1,prod2,prod3','1234',3,'Con tres generaciones de experiencia en la cocina oaxaque贸as, siendo su fundadora la Sra. Juana S贸nchez Pacheco, una de las pioneras del mercado 20 de Nov.'),
+(2,4,'puesto4',4,'prop4','prod1,prod2,prod3','1234',1,'Con tres generaciones de experiencia en la cocina oaxaque贸as, siendo su fundadora la Sra. Juana S贸nchez Pacheco, una de las pioneras del mercado 20 de Nov.'),
+(2,5,'puesto7',7,'prop7','prod1,prod2,prod3','1234',2,'Con tres generaciones de experiencia en la cocina oaxaque贸as, siendo su fundadora la Sra. Juana S贸nchez Pacheco, una de las pioneras del mercado 20 de Nov.'),
+(2,6,'puesto8',8,'prop8','prod1,prod2,prod3','1234',2,'Con tres generaciones de experiencia en la cocina oaxaque贸as, siendo su fundadora la Sra. Juana S贸nchez Pacheco, una de las pioneras del mercado 20 de Nov.'),
+(3,7,'puesto5',5,'prop3','prod1,prod2,prod3','1234',2,'Con tres generaciones de experiencia en la cocina oaxaque贸as, siendo su fundadora la Sra. Juana S贸nchez Pacheco, una de las pioneras del mercado 20 de Nov.'),
+(3,8,'puesto6',6,'prop3','prod1,prod2,prod3','1234',3,'Con tres generaciones de experiencia en la cocina oaxaque贸as, siendo su fundadora la Sra. Juana S贸nchez Pacheco, una de las pioneras del mercado 20 de Nov.');
 
 

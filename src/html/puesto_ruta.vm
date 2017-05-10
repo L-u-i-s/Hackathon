@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Dijkstra</title>
+		<title>Ruta en el mercado</title>
 		
 		
     
@@ -267,7 +267,7 @@
 		
 		<!--<div style="padding-left: 10%;">
 		<img src="mercado.png">-->
-		<canvas id="miCanvas" width="400" height="700" style="background-image:url('mercado.png');"> </canvas>
+		<canvas id="miCanvas" width="400" height="700" style="background-image:url('${contextPath}/mercado.png');"> </canvas>
 		<!--</div>-->
 	  
 	<script>
@@ -605,20 +605,19 @@ var gg = ( function () {
     var arcos = [];
 
     var putNodo = function (x, y) {
-	nodos.push(nodo());
-	var i = nodos.length-1;
-	nodos[i].position.x = x;
-	nodos[i].position.y = y;
-	nodos[i].setLabel(i);
-	return i;
+		nodos.push(nodo());
+		var i = nodos.length-1;
+		nodos[i].position.x = x;
+		nodos[i].position.y = y;
+		nodos[i].setLabel(i);
+		return i;
     };
 
     var plug = function (a, b) {
-		
-		context.strokeStyle = 'purple';
+		context.strokeStyle = 'green';
 		context.lineWidth = 4;
-      context.stroke();
-	arcos.push([a,b]);
+		context.stroke();
+		arcos.push([a,b]);
     };
 
     var unplug = function (a, b) {
@@ -631,16 +630,16 @@ var gg = ( function () {
 
     var drawAll = function () {
 
-	for(var i=0; i<arcos.length; i++) {
-	    var origin = nodos[arcos[i][0]], destiny = nodos[arcos[i][1]];
-	    context.moveTo(origin.position.x, origin.position.y);
-	    context.lineTo(destiny.position.x, destiny.position.y);
-	    context.stroke();
-	}
-
-	for(var i=0; i<nodos.length; i++) {
-	    nodos[i].draw();
-	}
+		for(var i=0; i<arcos.length; i++) {
+		    var origin = nodos[arcos[i][0]], destiny = nodos[arcos[i][1]];
+		    context.moveTo(origin.position.x, origin.position.y);
+		    context.lineTo(destiny.position.x, destiny.position.y);
+		    context.stroke();
+		}
+	
+		for(var i=0; i<nodos.length; i++) {
+		    nodos[i].draw();
+		}
 
     };
 
